@@ -1,7 +1,7 @@
 {
-  "name": "serverless-todo-app",
+  "name": "direktori Serverless",
   "version": "1.0.0",
-  "description": "Serverless TODO image app",
+  "description": "Serverless direktori",
   "dependencies": {
     "@types/axios": "^0.14.0",
     "@types/http-errors": "^1.6.3",
@@ -33,6 +33,6 @@
     "typescript": "^3.8.3",
     "webpack": "^4.42.1"
   },
-  "author": "Ivan Mushketyk",
+  "author": "Raditya Perdhevi",
   "license": "MIT"
 }
