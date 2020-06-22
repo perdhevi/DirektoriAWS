@@ -1,10 +1,9 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title": "todo-update",
-    "type": "object",
-    "properties": 
-      {
-        "name": { "type": "string" },
-        "dueDate": { "type": "string" }
-      }
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "title": "Store-update",
+  "type": "object",
+  "properties": {
+    "name": { "type": "string" },
+    "dueDate": { "type": "string" }
   }
+}

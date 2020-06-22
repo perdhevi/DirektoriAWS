@@ -1,5 +1,5 @@
 service:
-  name: sls-todo-app
+  name: sls-Store-app
 
 plugins:
   - serverless-webpack
@@ -13,14 +13,12 @@ provider:
   region: ${opt:region, 'us-east-1'}
 
   environment:
-    TODO_TABLE: Todo-${self:provider.stage}
-    AUTH0_SECRET: u4EpfVutIzcwGCnI3aiWCgeclV_LwomuAIh8w4oi6aENmSRxWGvfzMVnhfXNQwQW
-    INDEX_NAME: Todo-name-${self:provider.stage}
-    IMAGES_S3_BUCKET: udacity-todo-images-${self:provider.stage}
+    Store_TABLE: Store-${self:provider.stage}
+    INDEX_NAME: Store-name-${self:provider.stage}
+    IMAGES_S3_BUCKET: direktori-store-images-${self:provider.stage}
     CONNECTIONS_TABLE: Connections-${self:provider.stage}
     CONNECTIONS_INDEX: ConnectionsIndex
-    
-    
+
     SIGNED_URL_EXPIRATION: 3000
 
 custom:
@@ -28,97 +26,96 @@ custom:
     api:
       info:
         version: 1.0.0
-        title: Todo List API
+        title: Store List API
     models:
-      - name: TodoCreateRequest
+      - name: StoreCreateRequest
         contentType: application/json
-        schema: ${file(src/models/model-todo-create.json)}
-      - name: TodoUpdateRequest
+        schema: ${file(src/models/model-Store-create.json)}
+      - name: StoreUpdateRequest
         contentType: application/json
-        schema: ${file(src/models/model-todo-update.json)}
+        schema: ${file(src/models/model-Store-update.json)}
   topicName: imagesTopic-${self:provider.stage}
-
 
 functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
-  GetTodos:
-    handler: src/lambda/http/getTodos.handler
+  GetStores:
+    handler: src/lambda/http/getStores.handler
     events:
       - http:
           method: get
-          path: todos
+          path: Stores
           authorizer: Auth
           cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
 
-  CreateTodo:
-    handler: src/lambda/http/createTodo.handler
+  CreateStore:
+    handler: src/lambda/http/createStore.handler
     events:
       - http:
           method: post
-          path: todos
+          path: Stores
           authorizer: Auth
           cors: true
           reqValidatorName: RequestBodyValidator
           documentation:
-            summary: Create a new Todo
-            description: Create a new Todo
+            summary: Create a new Store
+            description: Create a new Store
             requestModels:
-              'application/json': TodoCreateRequest
+              "application/json": StoreCreateRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-          
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-          
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/*
 
-  UpdateTodo:
-    handler: src/lambda/http/updateTodo.handler
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
+
+  UpdateStore:
+    handler: src/lambda/http/updateStore.handler
     events:
       - http:
           method: patch
-          path: todos/{todoId}
+          path: Stores/{StoreId}
           authorizer: Auth
           cors: true
           reqValidatorName: RequestBodyValidator
           documentation:
-            summary: Update a Todo
-            description: Update a Todo
+            summary: Update a Store
+            description: Update a Store
             requestModels:
-              'application/json': TodoUpdateRequest
+              "application/json": StoreUpdateRequest
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
 
-  DeleteTodo:
-    handler: src/lambda/http/deleteTodo.handler
+  DeleteStore:
+    handler: src/lambda/http/deleteStore.handler
     events:
       - http:
           method: delete
-          path: todos/{todoId}
+          path: Stores/{StoreId}
           authorizer: Auth
           cors: true
     iamRoleStatements:
@@ -126,41 +123,41 @@ functions:
         Action:
           - dynamodb:Query
           - dynamodb:DeleteItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:DeleteItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
     events:
       - http:
           method: post
-          path: todos/{todoId}/attachment
+          path: Stores/{StoreId}/attachment
           authorizer: Auth
           cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
           - s3:*
-        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*  
+        Resource: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*
 
   SendUploadNotification:
     environment:
       STAGE: ${self:provider.stage}
-      API_ID: 
+      API_ID:
         Ref: WebsocketsApi
     handler: src/lambda/s3/sendNotificationS3.handler
     events:
       - sns:
           arn:
             Fn::Join:
-              - ':'
+              - ":"
               - - arn:aws:sns
-                - Ref : AWS::Region
-                - Ref : AWS::AccountId
+                - Ref: AWS::Region
+                - Ref: AWS::AccountId
                 - ${self:custom.topicName}
           topicName: ${self:custom.topicName}
     iamRoleStatements:
@@ -168,18 +165,17 @@ functions:
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.TODO_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
       - Effect: Allow
         Action:
           - dynamodb:Scan
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CONNECTIONS_TABLE}
-
 
   ConnectHandler:
     handler: src/lambda/websocket/connect.handler
@@ -196,13 +192,12 @@ functions:
     handler: src/lambda/websocket/disconnect.handler
     events:
       - websocket:
-          route: $disconnect  
+          route: $disconnect
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:DeleteItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CONNECTIONS_TABLE}
-
 
 #  SyncWithElasticSearch:
 #    environment:
@@ -211,30 +206,30 @@ functions:
 #    events:
 #      - stream:
 #          type: dynamodb
-#          arn: !GetAtt TodosDynamoDBTable.StreamArn
+#          arn: !GetAtt StoresDynamoDBTable.StreamArn
 
 resources:
   Resources:
-    # TODO: Add any necessary AWS resources
-    TodosDynamoDBTable:
+    # Store: Add any necessary AWS resources
+    StoresDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.TODO_TABLE}      
+        TableName: ${self:provider.environment.Store_TABLE}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: userId
             AttributeType: S
-          - AttributeName: todoId
+          - AttributeName: StoreId
             AttributeType: S
         KeySchema:
           - AttributeName: userId
-            KeyType: HASH        
-          - AttributeName: todoId
-            KeyType: RANGE        
+            KeyType: HASH
+          - AttributeName: StoreId
+            KeyType: RANGE
         GlobalSecondaryIndexes:
           - IndexName: ${self:provider.environment.INDEX_NAME}
             KeySchema:
-              - AttributeName: todoId
+              - AttributeName: StoreId
                 KeyType: HASH
               - AttributeName: userId
                 KeyType: RANGE
@@ -255,7 +250,6 @@ resources:
         BillingMode: PAY_PER_REQUEST
         TableName: ${self:provider.environment.CONNECTIONS_TABLE}
 
-
     AttachmentsBucket:
       Type: AWS::S3::Bucket
       DependsOn: SNSTopicPolicy
@@ -265,16 +259,15 @@ resources:
           TopicConfigurations:
             - Event: s3:ObjectCreated:Put
               Topic: !Ref ImagesTopic
-#          LambdaConfigurations:
-#            - Event: 's3:ObjectCreated:*'
-#              Function: !GetAtt 'SendUploadNotificationLambdaFunction.Arn'
+        #          LambdaConfigurations:
+        #            - Event: 's3:ObjectCreated:*'
+        #              Function: !GetAtt 'SendUploadNotificationLambdaFunction.Arn'
         CorsConfiguration:
           CorsRules:
-            -
-              AllowedOrigins:
-                - '*'
+            - AllowedOrigins:
+                - "*"
               AllowedHeaders:
-                - '*'
+                - "*"
               AllowedMethods:
                 - GET
                 - PUT
@@ -292,8 +285,7 @@ resources:
               Principal:
                 AWS: "*"
               Action: sns:Publish
-              Resource:
-                !Ref ImagesTopic
+              Resource: !Ref ImagesTopic
               Condition:
                 ArnLike:
                   AWS:SourceArn: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}
@@ -309,11 +301,11 @@ resources:
     SendUploadNotificationPermission:
       Type: AWS::Lambda::Permission
       Properties:
-          FunctionName: !Ref SendUploadNotificationLambdaFunction
-          Principal: s3.amazonaws.com
-          Action: lambda:InvokeFunction
-          SourceAccount: !Ref AWS::AccountId
-          SourceArn: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}
+        FunctionName: !Ref SendUploadNotificationLambdaFunction
+        Principal: s3.amazonaws.com
+        Action: lambda:InvokeFunction
+        SourceAccount: !Ref AWS::AccountId
+        SourceArn: arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}
 
     BucketPolicy:
       Type: AWS::S3::BucketPolicy
@@ -324,12 +316,12 @@ resources:
           Statement:
             - Sid: PublicReadForGetBucketObjects
               Effect: Allow
-              Principal: '*'
-              Action: 's3:GetObject'
-              Resource: 'arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*'
+              Principal: "*"
+              Action: "s3:GetObject"
+              Resource: "arn:aws:s3:::${self:provider.environment.IMAGES_S3_BUCKET}/*"
         Bucket: !Ref AttachmentsBucket
     GatewayResponseDefault4xx:
-      Type: 'AWS::ApiGateway::GatewayResponse'
+      Type: "AWS::ApiGateway::GatewayResponse"
       Properties:
         ResponseParameters:
           gatewayresponse.header.Access-Control-Allow-Origin: "'*'"
@@ -338,10 +330,9 @@ resources:
         ResponseType: DEFAULT_4XX
         RestApiId:
           Ref: ApiGatewayRestApi
-
 #    ImageSearch:
 #      Type: AWS::Elasticsearch::Domain
-#      Properties: 
+#      Properties:
 #        ElasticsearchVersion: '6.3'
 #        DomainName: images-search-${self:provider.stage}
 #        ElasticsearchClusterConfig:
