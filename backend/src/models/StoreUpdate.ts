@@ -1,5 +1,6 @@
 export interface StoreUpdate {
   name: string;
-  dueDate: string;
-  done: boolean;
+  phone: string;
+  address: string;
+  notes?: string;
 }

@@ -7,9 +7,19 @@ const logger = createLogger("StoreAccess");
 export class StoreAccess {
   constructor(
     private readonly docClient: AWS.DynamoDB.DocumentClient = new AWS.DynamoDB.DocumentClient(),
-    private readonly StoreTable = process.env.Store_TABLE,
+    private readonly StoreTable = process.env.STORE_TABLE,
     private readonly StoreIndex = process.env.INDEX_NAME
-  ) {}
+  ) { }
+
+  async getAllStores(): Promise<StoreItem[]> {
+    const result = await this.docClient
+      .query({
+        TableName: this.StoreTable,
+      })
+      .promise();
+    const items = result.Items;
+    return items as StoreItem[];
+  }
 
   async getStores(userId): Promise<StoreItem[]> {
     const result = await this.docClient
@@ -67,8 +77,9 @@ export class StoreAccess {
         Key: { StoreId: StoreId, userId: userId },
         ExpressionAttributeValues: {
           ":name": updatedStore.name,
-          ":dueDate": updatedStore.dueDate,
-          ":done": updatedStore.done,
+          ":phone": updatedStore.phone,
+          ":address": updatedStore.address,
+          ":notes": updatedStore.notes,
         },
         ExpressionAttributeNames: {
           "#nm": "name",

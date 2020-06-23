@@ -7,7 +7,8 @@
     "StoreId": { "type": "string" },
     "createdAt": { "type": "string" },
     "name": { "type": "string" },
-    "dueDate": { "type": "string" }
+    "phone": { "type": "string" },
+    "address": { "type": "string" }
   },
   "required": ["StoreId"]
 }

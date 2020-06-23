@@ -4,6 +4,7 @@
   "type": "object",
   "properties": {
     "name": { "type": "string" },
-    "dueDate": { "type": "string" }
+    "phone": { "type": "string" },
+    "address": { "type": "string" }
   }
 }

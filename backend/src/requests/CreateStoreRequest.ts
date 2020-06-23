@@ -3,5 +3,6 @@
  */
 export interface CreateStoreRequest {
   name: string;
-  dueDate: string;
+  phone: string;
+  address: string;
 }

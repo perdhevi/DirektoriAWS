@@ -3,7 +3,7 @@ export interface StoreItem {
   StoreId: string;
   createdAt: string;
   name: string;
-  dueDate: string;
-  done: boolean;
-  attachmentUrl?: string;
+  phone: string;
+  address: string;
+  notes?: string;
 }

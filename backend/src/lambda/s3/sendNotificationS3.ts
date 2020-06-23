@@ -9,7 +9,7 @@ import { ConnectionAccess } from "../../dataLayer/ConnectionAccess";
 const stage = process.env.STAGE;
 const apiId = process.env.API_ID;
 
-//const StoreTable = process.env.Store_TABLE;
+//const StoreTable = process.env.STORE_TABLE;
 
 import * as Stores from "../../businessLayer/Store";
 

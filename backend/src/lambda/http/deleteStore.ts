@@ -17,7 +17,7 @@ export const handler: APIGatewayProxyHandler = async (
 
   const _StoreId = event.pathParameters.StoreId;
   //const docClient = new AWS.DynamoDB.DocumentClient();
-  //const StoreTable = process.env.Store_TABLE;
+  //const StoreTable = process.env.STORE_TABLE;
 
   // DONE: Remove a Store item by id
   const userId = getUserId(event);

@@ -5,7 +5,8 @@ export const fetchStores = (props) => async (dispatch) => {
   console.log("actioning fetchStore");
   const response = await store.get("stores", {
     headers: {
-      Authorization: `Bearer ${props.auth.getAccessToken()}`,
+      "Content-Type": "application/json",
+      "Authorization": `Bearer ${props.auth.getAccessToken()}`,
     },
   });
   dispatch({

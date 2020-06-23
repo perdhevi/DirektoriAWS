@@ -1,5 +1,5 @@
 service:
-  name: sls-Store-app
+  name: sls-store-app
 
 plugins:
   - serverless-webpack
@@ -13,8 +13,8 @@ provider:
   region: ${opt:region, 'us-east-1'}
 
   environment:
-    Store_TABLE: Store-${self:provider.stage}
-    INDEX_NAME: Store-name-${self:provider.stage}
+    STORE_TABLE: store-${self:provider.stage}
+    INDEX_NAME: store-name-${self:provider.stage}
     IMAGES_S3_BUCKET: direktori-store-images-${self:provider.stage}
     CONNECTIONS_TABLE: Connections-${self:provider.stage}
     CONNECTIONS_INDEX: ConnectionsIndex
@@ -30,40 +30,56 @@ custom:
     models:
       - name: StoreCreateRequest
         contentType: application/json
-        schema: ${file(src/models/model-Store-create.json)}
+        schema: ${file(src/models/model-store-create.json)}
       - name: StoreUpdateRequest
         contentType: application/json
-        schema: ${file(src/models/model-Store-update.json)}
+        schema: ${file(src/models/model-store-update.json)}
   topicName: imagesTopic-${self:provider.stage}
 
 functions:
   Auth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
+  GetAllStores:
+    handler: src/lambda/http/getAllStores.handler
+    events:
+      - http:
+          method: get
+          path: allstores
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   GetStores:
     handler: src/lambda/http/getStores.handler
     events:
       - http:
           method: get
-          path: Stores
+          path: stores
           authorizer: Auth
           cors: true
     iamRoleStatements:
       - Effect: Allow
         Action:
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   CreateStore:
     handler: src/lambda/http/createStore.handler
     events:
       - http:
           method: post
-          path: Stores
+          path: stores
           authorizer: Auth
           cors: true
           reqValidatorName: RequestBodyValidator
@@ -77,19 +93,19 @@ functions:
         Action:
           - dynamodb:PutItem
 
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:PutItem
 
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   UpdateStore:
     handler: src/lambda/http/updateStore.handler
     events:
       - http:
           method: patch
-          path: Stores/{StoreId}
+          path: stores/{StoreId}
           authorizer: Auth
           cors: true
           reqValidatorName: RequestBodyValidator
@@ -103,19 +119,19 @@ functions:
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   DeleteStore:
     handler: src/lambda/http/deleteStore.handler
     events:
       - http:
           method: delete
-          path: Stores/{StoreId}
+          path: stores/{StoreId}
           authorizer: Auth
           cors: true
     iamRoleStatements:
@@ -123,19 +139,19 @@ functions:
         Action:
           - dynamodb:Query
           - dynamodb:DeleteItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:DeleteItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   GenerateUploadUrl:
     handler: src/lambda/http/generateUploadUrl.handler
     events:
       - http:
           method: post
-          path: Stores/{StoreId}/attachment
+          path: stores/{StoreId}/attachment
           authorizer: Auth
           cors: true
     iamRoleStatements:
@@ -165,12 +181,12 @@ functions:
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
           - dynamodb:UpdateItem
-        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.Store_TABLE}/*
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
       - Effect: Allow
         Action:
           - dynamodb:Scan
@@ -214,7 +230,7 @@ resources:
     StoresDynamoDBTable:
       Type: AWS::DynamoDB::Table
       Properties:
-        TableName: ${self:provider.environment.Store_TABLE}
+        TableName: ${self:provider.environment.STORE_TABLE}
         BillingMode: PAY_PER_REQUEST
         AttributeDefinitions:
           - AttributeName: userId

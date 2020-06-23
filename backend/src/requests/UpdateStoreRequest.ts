@@ -3,6 +3,6 @@
  */
 export interface UpdateStoreRequest {
   name: string;
-  dueDate: string;
-  done: boolean;
+  phone: string;
+  address: string;
 }

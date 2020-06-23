@@ -10,6 +10,11 @@ export async function getStore(userId): Promise<StoreItem[]> {
   return storeAccess.getStores(userId);
 }
 
+export async function getAllStore(): Promise<StoreItem[]> {
+  return storeAccess.getAllStores();
+}
+
+
 export async function createStore(newStore: CreateStoreRequest, userId) {
   const uuid = require("uuid");
   const _StoreId = uuid.v4();
@@ -20,7 +25,6 @@ export async function createStore(newStore: CreateStoreRequest, userId) {
     createdAt: _now.toISOString(),
     userId: userId,
     ...newStore,
-    done: false,
   };
   return storeAccess.createStore(item);
 }
