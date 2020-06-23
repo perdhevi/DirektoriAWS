@@ -14,11 +14,11 @@ class StoreList extends React.Component {
       return <div>Loading...</div>;
     } else {
       console.log(this.props.stores)
-      if (this.props.stores.length > 0)
-        return this.props.stores.map((store) => {
-          const editLink = "/stores/" + store.id;
+      if (this.props.stores.items.length > 0)
+        return this.props.stores.items.map((store) => {
+          const editLink = "/stores/" + store.StoreId;
           return (
-            <div className="item" key={store.id}>
+            <div className="item" key={store.StoreId}>
               <i>
                 <div className="ui grid">
                   <div className="two wide column">image here</div>
