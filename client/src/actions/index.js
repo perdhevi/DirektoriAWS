@@ -1,14 +1,9 @@
-import store from "../api/stores";
+import { getStoreList } from "../api/stores";
 import constants from "../constants";
 
 export const fetchStores = (props) => async (dispatch) => {
   console.log("actioning fetchStore");
-  const response = await store.get("stores", {
-    headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer ${props.auth.getAccessToken()}`,
-    },
-  });
+  const response = await getStoreList(props.auth);
   dispatch({
     type: constants.FETCH_STORE,
     payload: response,
@@ -17,15 +12,6 @@ export const fetchStores = (props) => async (dispatch) => {
 
 export const fetchCategory = (props) => async (dispatch) => {
   console.log("actioning fetchCategory");
-  const response = await store.get("categories", {
-    headers: {
-      Authorization: `Bearer ${props.auth.getAccessToken()}`,
-    },
-  });
-  dispatch({
-    type: constants.FETCH_CATEGORY,
-    payload: response,
-  });
 };
 
 export const addStore = () => async (dispatch) => {

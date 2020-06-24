@@ -82,7 +82,6 @@ functions:
           path: stores
           authorizer: Auth
           cors: true
-          reqValidatorName: RequestBodyValidator
           documentation:
             summary: Create a new Store
             description: Create a new Store
@@ -92,12 +91,10 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:PutItem
-
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   UpdateStore:

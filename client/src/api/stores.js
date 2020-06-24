@@ -1,5 +1,21 @@
-import axios from "axios";
+import ax from "./index";
 
-export default axios.create({
-  baseURL: "https://wesujj1tlh.execute-api.us-east-1.amazonaws.com/dev",
-});
+export function getStoreList(auth) {
+  return ax.get("/stores", {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+    },
+    body: {},
+  });
+}
+
+export function createStore(auth, store) {
+  console.log(JSON.stringify({ ...store }));
+  console.log(auth.getAccessToken());
+  return ax.post("/stores", store, {
+    headers: {
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+    },
+  });
+}

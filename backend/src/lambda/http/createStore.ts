@@ -13,11 +13,13 @@ import { CreateStoreRequest } from "../../requests/CreateStoreRequest";
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
-  console.log(event);
-
+  console.log("getting user id");
+  const userId = getUserId(event);
+  console.log(event.body);
+  console.log("parsing event body");
   const newStore: CreateStoreRequest = JSON.parse(event.body);
 
-  const item = await Stores.createStore(newStore, getUserId(event));
+  const item = await Stores.createStore(newStore, userId);
   console.log(item);
   // DONE: Implement creating a new Store item
   return {

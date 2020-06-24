@@ -38,7 +38,11 @@ class App extends Component {
           exact
           render={(props) => <StoreList auth={this.auth} {...props} />}
         />
-        <Route path="/stores/new" exact component={StoreCreate} />
+        <Route
+          path="/stores/new"
+          exact
+          render={(props) => <StoreCreate auth={this.auth} {...props} />}
+        />
         <Route
           path="/categories"
           exact
