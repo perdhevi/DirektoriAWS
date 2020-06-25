@@ -19,3 +19,11 @@ export function createStore(auth, store) {
     },
   });
 }
+
+export function updateStore(auth, store) {
+  return ax.put("/stores", store, {
+    headers: {
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+    },
+  });
+}

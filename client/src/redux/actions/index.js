@@ -1,5 +1,5 @@
-import { getStoreList } from "../api/stores";
-import constants from "../constants";
+import { getStoreList } from "../../api/stores";
+import constants from "../../constants";
 
 export const fetchStores = (props) => async (dispatch) => {
   console.log("actioning fetchStore");
@@ -15,5 +15,9 @@ export const fetchCategory = (props) => async (dispatch) => {
 };
 
 export const addStore = () => async (dispatch) => {
+  console.log("actioning addStore");
+};
+
+export const fetchStore = (props) => async (dispatch) => {
   console.log("actioning addStore");
 };

@@ -6,14 +6,17 @@ import { UpdateStoreRequest } from "../requests/UpdateStoreRequest";
 
 const storeAccess = new StoreAccess();
 
-export async function getStore(userId): Promise<StoreItem[]> {
+export async function getStores(userId): Promise<StoreItem[]> {
   return storeAccess.getStores(userId);
+}
+
+export async function getStore(userId, StoreId): Promise<StoreItem> {
+  return storeAccess.getStore(userId, StoreId);
 }
 
 export async function getAllStore(): Promise<StoreItem[]> {
   return storeAccess.getAllStores();
 }
-
 
 export async function createStore(newStore: CreateStoreRequest, userId) {
   const uuid = require("uuid");

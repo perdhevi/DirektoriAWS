@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchStores } from "../actions";
+import { fetchStores } from "../redux/actions";
 import { Link } from "react-router-dom";
 
 class StoreList extends React.Component {
@@ -13,7 +13,7 @@ class StoreList extends React.Component {
     if (!this.props.stores) {
       return <div>Loading...</div>;
     } else {
-      console.log(this.props.stores)
+      console.log(this.props.stores);
       if (this.props.stores.items.length > 0)
         return this.props.stores.items.map((store) => {
           const editLink = "/stores/" + store.StoreId;

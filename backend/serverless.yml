@@ -96,6 +96,29 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
+  GetStore:
+    handler: src/lambda/http/getStore.handler
+    events:
+      - http:
+          method: get
+          path: stores/{StoreId}
+          authorizer: Auth
+          cors: true
+          reqValidatorName: RequestBodyValidator
+          documentation:
+            summary: get a Store
+            description: Get a Store
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:UpdateItem
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   UpdateStore:
     handler: src/lambda/http/updateStore.handler

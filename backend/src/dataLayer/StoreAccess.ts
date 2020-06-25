@@ -9,7 +9,7 @@ export class StoreAccess {
     private readonly docClient: AWS.DynamoDB.DocumentClient = new AWS.DynamoDB.DocumentClient(),
     private readonly StoreTable = process.env.STORE_TABLE,
     private readonly StoreIndex = process.env.INDEX_NAME
-  ) { }
+  ) {}
 
   async getAllStores(): Promise<StoreItem[]> {
     const result = await this.docClient
@@ -34,6 +34,7 @@ export class StoreAccess {
     const items = result.Items;
     return items as StoreItem[];
   }
+
   async createStore(item: StoreItem): Promise<StoreItem> {
     await this.docClient
       .put({

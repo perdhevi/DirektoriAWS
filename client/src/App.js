@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import TopHeader from "./components/TopHeader";
+import TopHeader from "./components/common/TopHeader";
 import Dashboard from "./components/dashboard";
 import { Route } from "react-router-dom";
 
