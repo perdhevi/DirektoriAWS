@@ -85,7 +85,8 @@ export class StoreAccess {
         ExpressionAttributeNames: {
           "#nm": "name",
         },
-        UpdateExpression: "SET #nm = :name, dueDate = :dueDate, done = :done",
+        UpdateExpression:
+          "SET #nm = :name, phone = :phone, address = :address, notes = :notes",
 
         ReturnValues: "UPDATED_NEW",
       })

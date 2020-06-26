@@ -2,6 +2,7 @@ import React from "react";
 import TextInput from "./common/TextInput";
 
 function StoreForm(props) {
+  //console.log("StoreForm:", props);
   return (
     <form onSubmit={props.onSubmit}>
       <div className="ui segment">

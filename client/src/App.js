@@ -5,6 +5,7 @@ import { Route } from "react-router-dom";
 
 import StoreList from "./components/StoreList";
 import StoreCreate from "./components/StoreCreate";
+import StoreEdit from "./components/StoreEdit";
 
 import CategoryList from "./components/categoryList";
 import CategoryNew from "./components/categoryNew";
@@ -42,6 +43,11 @@ class App extends Component {
           path="/stores/new"
           exact
           render={(props) => <StoreCreate auth={this.auth} {...props} />}
+        />
+        <Route
+          path="/stores/:StoreId/edit"
+          exact
+          render={(props) => <StoreEdit auth={this.auth} {...props} />}
         />
         <Route
           path="/categories"

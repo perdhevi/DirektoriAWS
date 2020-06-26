@@ -10,13 +10,12 @@ class StoreList extends React.Component {
   }
 
   renderList() {
-    if (!this.props.stores) {
+    if (!this.props.stores.items) {
       return <div>Loading...</div>;
     } else {
-      console.log(this.props.stores);
       if (this.props.stores.items.length > 0)
         return this.props.stores.items.map((store) => {
-          const editLink = "/stores/" + store.StoreId;
+          const editLink = "/stores/" + store.StoreId + "/edit";
           return (
             <div className="item" key={store.StoreId}>
               <i>
@@ -61,8 +60,8 @@ class StoreList extends React.Component {
 }
 
 const mapStateToProps = (state, ownProps) => {
-  console.log("mapping store to props", ownProps);
-  return { stores: state.stores.data };
+  console.log("StoreList:mapping store to props", state);
+  return { stores: state.stores };
 };
 
 export default connect(mapStateToProps, { fetchStores })(StoreList);

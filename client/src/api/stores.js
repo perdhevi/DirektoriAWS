@@ -10,9 +10,20 @@ export function getStoreList(auth) {
   });
 }
 
+export function getStore(auth, storeId) {
+  console.log("action: getStore api ", auth, storeId);
+  return ax.get("/stores/" + storeId, {
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+    },
+    body: {},
+  });
+}
+
 export function createStore(auth, store) {
-  console.log(JSON.stringify({ ...store }));
-  console.log(auth.getAccessToken());
+  //console.log(JSON.stringify({ ...store }));
+  //console.log(auth.getAccessToken());
   return ax.post("/stores", store, {
     headers: {
       Authorization: `Bearer ${auth.getAccessToken()}`,
@@ -21,7 +32,8 @@ export function createStore(auth, store) {
 }
 
 export function updateStore(auth, store) {
-  return ax.put("/stores", store, {
+  console.log(store);
+  return ax.patch("/stores/" + store.StoreId, store, {
     headers: {
       Authorization: `Bearer ${auth.getAccessToken()}`,
     },
