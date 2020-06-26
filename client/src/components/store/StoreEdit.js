@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import StoreForm from "./StoreForm";
-import { fetchStore } from "../redux/actions";
+import { fetchStore } from "../../redux/actions/actStore";
 import { connect } from "react-redux";
-import { updateStore } from "../api/stores";
+import { updateStore } from "../../api/stores";
 
 function StoreEdit(props) {
   const [store, setStore] = useState({ ...props.store });

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import StoreForm from "./StoreForm";
-import { createStore } from "../api/stores";
+import { createStore } from "../../api/stores";
 
 const StoreCreate = (props) => {
   const [store, setStore] = useState({

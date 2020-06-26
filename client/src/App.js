@@ -3,12 +3,12 @@ import TopHeader from "./components/common/TopHeader";
 import Dashboard from "./components/dashboard";
 import { Route } from "react-router-dom";
 
-import StoreList from "./components/StoreList";
-import StoreCreate from "./components/StoreCreate";
-import StoreEdit from "./components/StoreEdit";
+import StoreList from "./components/store/StoreList";
+import StoreCreate from "./components/store/StoreCreate";
+import StoreEdit from "./components/store/StoreEdit";
 
-import CategoryList from "./components/categoryList";
-import CategoryNew from "./components/categoryNew";
+import CategoryList from "./components/category/categoryList";
+import CategoryNew from "./components/category/categoryNew";
 
 import Auth from "./auth/auth";
 import Callback from "./components/callback";
