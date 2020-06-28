@@ -3,6 +3,7 @@ import StoreForm from "./StoreForm";
 import { fetchStore } from "../../redux/actions/actStore";
 import { connect } from "react-redux";
 import { updateStore } from "../../api/stores";
+import { StoreImage } from "./StoreImage";
 
 function StoreEdit(props) {
   const [store, setStore] = useState({ ...props.store });
@@ -44,6 +45,7 @@ function StoreEdit(props) {
             onChange={handleChange}
             onSubmit={handleSubmit}
           />
+          <StoreImage store={store} />
         </div>
       </div>
     );
