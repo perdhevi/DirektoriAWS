@@ -16,11 +16,17 @@ class StoreList extends React.Component {
       if (this.props.stores.items.length > 0)
         return this.props.stores.items.map((store) => {
           const editLink = "/stores/" + store.StoreId + "/edit";
+          const imageUrl = store.attachmentUrl
+            ? store.attachmentUrl
+            : "https://direktori-store-images-dev.s3.amazonaws.com/default-store.png";
+          console.log("ImageUrl", imageUrl);
           return (
             <div className="item" key={store.StoreId}>
               <i>
                 <div className="ui grid">
-                  <div className="two wide column">image here</div>
+                  <div className="two wide column">
+                    <img src={imageUrl} width="50" height="50" alt="No Store" />
+                  </div>
                   <div className="eight wide column">
                     <div className="description">
                       <h3>{store.name}</h3>
@@ -47,7 +53,7 @@ class StoreList extends React.Component {
   render() {
     return (
       <div className="ui segment">
-        <div className="ui raised segment"> Store list</div>
+        <div className="ui raised segment">My Stores</div>
         <div className="ui button">
           <Link to="/stores/new" className="button item">
             New Store

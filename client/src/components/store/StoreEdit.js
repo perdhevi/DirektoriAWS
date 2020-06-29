@@ -3,7 +3,7 @@ import StoreForm from "./StoreForm";
 import { fetchStore } from "../../redux/actions/actStore";
 import { connect } from "react-redux";
 import { updateStore } from "../../api/stores";
-import { StoreImage } from "./StoreImage";
+import StoreImage from "./StoreImage";
 
 function StoreEdit(props) {
   const [store, setStore] = useState({ ...props.store });
@@ -34,7 +34,7 @@ function StoreEdit(props) {
 
   if (!store) {
     return <div>loading</div>;
-  } else
+  } else {
     return (
       <div className="ui segment">
         <div className="ui form">
@@ -45,17 +45,18 @@ function StoreEdit(props) {
             onChange={handleChange}
             onSubmit={handleSubmit}
           />
-          <StoreImage store={store} />
+          <StoreImage store={store} auth={props.auth} />
         </div>
       </div>
     );
+  }
 }
 
 function findStoreById(stores, storeId) {
   ///console.log("find store ", stores);
-  const result = stores.find((store) => store.StoreId === storeId) || null;
+  if (stores) return stores.find((store) => store.StoreId === storeId) || null;
   //console.log("result:", result);
-  return result;
+  else return null;
 }
 
 function mapStateToProps(state, ownProps) {
