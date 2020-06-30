@@ -21,6 +21,7 @@ export default class Auth {
 
   logout = () => {
     this.clearSession();
+    this.auth0.logout();
     this.history.push("/");
   };
 

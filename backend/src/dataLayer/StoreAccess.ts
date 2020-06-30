@@ -1,4 +1,4 @@
-import { StoreItem } from "../models/StoreItem";
+import { StoreItem, StorePagedItem } from "../models/StoreItem";
 import { StoreUpdate } from "../models/StoreUpdate";
 import * as AWS from "aws-sdk";
 import { createLogger } from "../utils/logger";
@@ -11,20 +11,34 @@ export class StoreAccess {
     private readonly StoreIndex = process.env.INDEX_NAME
   ) {}
 
-  async getAllStores(): Promise<StoreItem[]> {
-    const result = await this.docClient
-      .query({
-        TableName: this.StoreTable,
-      })
-      .promise();
-    const items = result.Items;
-    return items as StoreItem[];
+  async getAllStores(lastKey): Promise<StorePagedItem> {
+    let result = null;
+    console.log(lastKey);
+    if (!lastKey || lastKey == null || lastKey === "null")
+      result = await this.docClient
+        .scan({
+          TableName: this.StoreTable,
+          Limit: 5,
+        })
+        .promise();
+    else
+      result = await this.docClient
+        .scan({
+          TableName: this.StoreTable,
+          Limit: 5,
+          ExclusiveStartKey: { StoreId: lastKey },
+        })
+        .promise();
+
+    const items = result;
+    return items as StorePagedItem;
   }
 
   async getStores(userId): Promise<StoreItem[]> {
     const result = await this.docClient
       .query({
         TableName: this.StoreTable,
+        IndexName: this.StoreIndex,
         KeyConditionExpression: "userId = :userId",
         ExpressionAttributeValues: {
           ":userId": userId,
@@ -53,10 +67,12 @@ export class StoreAccess {
     const queryRest = await this.docClient
       .query({
         TableName: this.StoreTable,
-        KeyConditionExpression: "StoreId = :paritionKey AND userId = :hashKey",
+        IndexName: this.StoreIndex,
+        KeyConditionExpression: "StoreId = :storeKey AND userId = :userKey",
+
         ExpressionAttributeValues: {
-          ":paritionKey": StoreId,
-          ":hashKey": userId,
+          ":storeKey": StoreId,
+          ":userKey": userId,
         },
       })
       .promise();
@@ -75,6 +91,7 @@ export class StoreAccess {
     const updateResult = await this.docClient
       .update({
         TableName: this.StoreTable,
+
         Key: { StoreId: StoreId, userId: userId },
         ExpressionAttributeValues: {
           ":name": updatedStore.name,
@@ -109,7 +126,6 @@ export class StoreAccess {
     const queryRest = await this.docClient
       .query({
         TableName: this.StoreTable,
-        IndexName: this.StoreIndex,
         KeyConditionExpression: "StoreId = :paritionKey",
         ExpressionAttributeValues: {
           ":paritionKey": StoreId,
@@ -122,11 +138,11 @@ export class StoreAccess {
       return;
     } else {
       logger.info("found and running update");
-      const userId = queryRest.Items[0].userId;
+      //const userId = queryRest.Items[0].userId;
       await this.docClient
         .update({
           TableName: this.StoreTable,
-          Key: { StoreId: StoreId, userId: userId },
+          Key: { StoreId: StoreId },
           ExpressionAttributeValues: {
             ":attachmentUrl": attachmentUrl,
           },

@@ -1,4 +1,4 @@
-import { StoreItem } from "../models/StoreItem";
+import { StoreItem, StorePagedItem } from "../models/StoreItem";
 //import { StoreUpdate } from '../models/StoreUpdate'
 import { StoreAccess } from "../dataLayer/StoreAccess";
 import { CreateStoreRequest } from "../requests/CreateStoreRequest";
@@ -14,8 +14,8 @@ export async function getStore(userId, StoreId): Promise<StoreItem> {
   return storeAccess.getStore(userId, StoreId);
 }
 
-export async function getAllStore(): Promise<StoreItem[]> {
-  return storeAccess.getAllStores();
+export async function getAllStore(lastKey: any): Promise<StorePagedItem> {
+  return storeAccess.getAllStores(lastKey);
 }
 
 export async function createStore(newStore: CreateStoreRequest, userId) {

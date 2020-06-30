@@ -7,3 +7,8 @@ export interface StoreItem {
   address: string;
   notes?: string;
 }
+
+export interface StorePagedItem {
+  Items: StoreItem[];
+  LastEvaluatedKey: any;
+}

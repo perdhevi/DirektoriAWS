@@ -8,13 +8,12 @@ import {
 
 import * as Stores from "../../businessLayer/Store";
 
-
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   console.log("Processing Event: ", event);
-
-  const items = await Stores.getAllStore();
+  const lastKey = event.pathParameters.lastKey;
+  const items = await Stores.getAllStore(lastKey);
 
   console.log("Fetch complete with ", items);
   return {
@@ -25,4 +24,4 @@ export const handler: APIGatewayProxyHandler = async (
     },
     body: JSON.stringify({ items }),
   };
-};  
+};
