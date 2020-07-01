@@ -1,4 +1,4 @@
-import { getStoreList, getStore } from "../../api/stores";
+import { getStoreList, getStore, getAllStoreList } from "../../api/stores";
 import constants from "../../constants";
 
 export const fetchStores = (props) => async (dispatch) => {
@@ -6,6 +6,15 @@ export const fetchStores = (props) => async (dispatch) => {
   const response = await getStoreList(props.auth);
   dispatch({
     type: constants.FETCH_STORE_LIST,
+    payload: response.data,
+  });
+};
+
+export const fetchAllStores = (last) => async (dispatch) => {
+  console.log("actioning fetchStoreAllList");
+  const response = await getAllStoreList(last);
+  dispatch({
+    type: constants.FETCH_ALL_STORE,
     payload: response.data,
   });
 };

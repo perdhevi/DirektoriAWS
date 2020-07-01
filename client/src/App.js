@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import TopHeader from "./components/common/TopHeader";
-import Dashboard from "./components/dashboard";
+import Dashboard from "./components/dashboard/dashboard";
 import { Route } from "react-router-dom";
 
 import StoreList from "./components/store/StoreList";

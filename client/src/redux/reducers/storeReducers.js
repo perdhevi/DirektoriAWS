@@ -1,7 +1,7 @@
 import constants from "../../constants";
 
 export default (state = [], action) => {
-  console.log("executing store reducers");
+  console.log("executing store reducers", state);
   switch (action.type) {
     case constants.FETCH_STORE_LIST:
       return action.payload;

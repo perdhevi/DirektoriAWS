@@ -19,7 +19,6 @@ class StoreList extends React.Component {
           const imageUrl = store.attachmentUrl
             ? store.attachmentUrl
             : "https://direktori-store-images-dev.s3.amazonaws.com/default-store.png";
-          console.log("ImageUrl", imageUrl);
           return (
             <div className="item" key={store.StoreId}>
               <i>

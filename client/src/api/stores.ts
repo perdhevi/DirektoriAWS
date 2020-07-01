@@ -11,6 +11,11 @@ export function getStoreList(auth: Auth) {
   });
 }
 
+export function getAllStoreList(last: string) {
+  if (!last || last === null) last = "null";
+  return ax.get("/allstores/" + last);
+}
+
 export function getStore(auth: Auth, storeId: string) {
   console.log("action: getStore api ", auth, storeId);
   return ax.get("/stores/" + storeId, {
