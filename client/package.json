@@ -6,7 +6,7 @@
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.5.0",
     "@testing-library/user-event": "^7.2.1",
-    "auth0-js": "^9.13.2",
+    "auth0-js": "^9.13.3",
     "axios": "^0.19.2",
     "lodash": "^4.17.15",
     "react": "^16.13.1",
@@ -17,7 +17,7 @@
     "redux": "^4.0.5",
     "redux-thunk": "^2.3.0",
     "semantic-ui-react": "^0.88.2",
-    "typescript": "^3.9.5"
+    "typescript": "^3.9.6"
   },
   "scripts": {
     "start": "react-scripts start",

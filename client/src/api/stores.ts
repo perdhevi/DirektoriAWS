@@ -27,8 +27,6 @@ export function getStore(auth: Auth, storeId: string) {
 }
 
 export function createStore(auth: Auth, store: StoreItem) {
-  //console.log(JSON.stringify({ ...store }));
-  //console.log(auth.getAccessToken());
   return ax.post("/stores", store, {
     headers: {
       Authorization: `Bearer ${auth.getAccessToken()}`,
@@ -39,6 +37,15 @@ export function createStore(auth: Auth, store: StoreItem) {
 export function updateStore(auth: Auth, store: StoreItem) {
   console.log(store);
   return ax.patch("/stores/" + store.StoreId, store, {
+    headers: {
+      Authorization: `Bearer ${auth.getAccessToken()}`,
+    },
+  });
+}
+
+export function deleteStore(auth: Auth, StoreId: string) {
+  console.log(StoreId);
+  return ax.delete("/stores/" + StoreId, {
     headers: {
       Authorization: `Bearer ${auth.getAccessToken()}`,
     },

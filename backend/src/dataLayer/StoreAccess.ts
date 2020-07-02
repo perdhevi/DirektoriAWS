@@ -18,14 +18,14 @@ export class StoreAccess {
       result = await this.docClient
         .scan({
           TableName: this.StoreTable,
-          Limit: 5,
+          Limit: 4,
         })
         .promise();
     else
       result = await this.docClient
         .scan({
           TableName: this.StoreTable,
-          Limit: 5,
+          Limit: 4,
           ExclusiveStartKey: { StoreId: lastKey },
         })
         .promise();

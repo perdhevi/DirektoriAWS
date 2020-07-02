@@ -18,30 +18,27 @@ class Dashboard extends React.Component {
       return <div>Loading...</div>;
     } else {
       return this.props.allstores.Items.map((store) => {
+        const imageUrl = store.attachmentUrl
+          ? store.attachmentUrl
+          : "https://direktori-store-images-dev.s3.amazonaws.com/default-store.png";
+        const storeName =
+          store.name.charAt(0).toUpperCase() + store.name.slice(1);
         return (
-          <div className="item" key={store.StoreId}>
-            <i>
-              <div className="ui grid">
-                <div className="two wide column">
-                  <img
-                    src={store.imageUrl}
-                    width="50"
-                    height="50"
-                    alt="No Store"
-                  />
-                </div>
-                <div className="eight wide column">
-                  <div className="description">
-                    <h3>{store.name}</h3>
-                    <p>
-                      {store.phone}
-                      <br />
-                      {store.address}
-                    </p>
-                  </div>
-                </div>
+          <div className="ui centered card" key={store.StoreId}>
+            <div className="image">
+              <div className="center aligned">
+                <img src={imageUrl} width="250" height="250" alt="No Store" />
               </div>
-            </i>
+            </div>
+            <div className="content">
+              <div className="header">{storeName}</div>
+              <div className="description">{store.address}</div>
+            </div>
+            <div class="extra content">
+              <span className="right floated">
+                {store.phone ? store.phone : "none"}
+              </span>
+            </div>
           </div>
         );
       });
@@ -62,7 +59,7 @@ class Dashboard extends React.Component {
             this.handleNext(this.props);
           }}
         >
-          Next
+          More...
         </button>
       );
     } else {
@@ -75,8 +72,8 @@ class Dashboard extends React.Component {
       : "";
 
     return (
-      <div className="basic segment">
-        {this.renderList()}
+      <div className="ui segment">
+        <div class="ui link cards">{this.renderList()}</div>
         <div className="ui basic segment">{this.renderButton(nextKey)}</div>
       </div>
     );
