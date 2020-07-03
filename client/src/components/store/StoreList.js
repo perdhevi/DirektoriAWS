@@ -5,24 +5,10 @@ import { Link } from "react-router-dom";
 //import { deleteStore } from "../../api/stores";
 
 class StoreList extends React.Component {
-  state = { openConfirm: false };
-  constructor(props) {
-    super(props);
-    this.wrapper = React.createRef();
-  }
-
   componentDidMount() {
     console.log("mounting Storelist");
     this.props.fetchStores(this.props);
   }
-
-  handleDelete(props, param) {
-    console.log(props, param);
-    //deleteStore(props.auth, param.StoreId);
-    this.setState({ openConfirm: true });
-  }
-  open = () => this.setState({ openConfirm: true });
-  close = () => this.setState({ openConfirm: false });
 
   renderList() {
     if (!this.props.stores.items) {
@@ -31,6 +17,7 @@ class StoreList extends React.Component {
       if (this.props.stores.items.length > 0)
         return this.props.stores.items.map((store) => {
           const editLink = "/stores/" + store.StoreId + "/edit";
+          const deleteLink = "/stores/" + store.StoreId + "/delete";
           const imageUrl = store.attachmentUrl
             ? store.attachmentUrl
             : "https://direktori-store-images-dev.s3.amazonaws.com/default-store.png";
@@ -42,7 +29,7 @@ class StoreList extends React.Component {
                   <div className="two wide column">
                     <img src={imageUrl} width="50" height="50" alt="No Store" />
                   </div>
-                  <div className="eight wide column">
+                  <div className="six wide column">
                     <div className="description">
                       <h3>{store.name}</h3>
                       <p>
@@ -52,21 +39,14 @@ class StoreList extends React.Component {
                       </p>
                     </div>
                   </div>
-                  <div className="two wide column">
-                    <div className="ui button">
-                      <Link to={editLink}>Edit</Link>
-                    </div>
-                    <div
-                      className="ui button"
-                      value={store.StoreId}
-                      onClick={() => {
-                        this.handleDelete(this.props, store);
-                      }}
-                    >
-                      <div className="ui modal" id="popModal">
-                        <div className="header">Delete This?</div>
+                  <div className="four wide column">
+                    <div>
+                      <div className="ui button">
+                        <Link to={editLink}>Edit</Link>
                       </div>
-                      Delete
+                      <div className="ui button">
+                        <Link to={deleteLink}>Delete</Link>
+                      </div>
                     </div>
                   </div>
                 </div>

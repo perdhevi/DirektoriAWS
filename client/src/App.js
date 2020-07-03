@@ -6,6 +6,7 @@ import { Route } from "react-router-dom";
 import StoreList from "./components/store/StoreList";
 import StoreCreate from "./components/store/StoreCreate";
 import StoreEdit from "./components/store/StoreEdit";
+import StoreDelete from "./components/store/StoreDelete";
 
 import CategoryList from "./components/category/categoryList";
 import CategoryNew from "./components/category/categoryNew";
@@ -48,6 +49,11 @@ class App extends Component {
           path="/stores/:StoreId/edit"
           exact
           render={(props) => <StoreEdit auth={this.auth} {...props} />}
+        />
+        <Route
+          path="/stores/:StoreId/delete"
+          exact
+          render={(props) => <StoreDelete auth={this.auth} {...props} />}
         />
         <Route
           path="/categories"

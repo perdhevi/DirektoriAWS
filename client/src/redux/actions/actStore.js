@@ -32,3 +32,8 @@ export const fetchStore = (props) => async (dispatch) => {
     payload: response.data,
   });
 };
+
+export function findStoreById(stores, storeId) {
+  if (stores) return stores.find((store) => store.StoreId === storeId) || null;
+  else return null;
+}

@@ -20,7 +20,9 @@ const StoreCreate = (props) => {
 
     console.log(props);
     console.log(store);
-    createStore(props.auth, store);
+    createStore(props.auth, store).then(() => {
+      props.history.push("/stores/");
+    });
     console.log("submitted");
   }
   return (

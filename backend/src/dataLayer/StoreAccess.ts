@@ -87,12 +87,12 @@ export class StoreAccess {
 
   async updateStore(StoreId, userId, updatedStore: StoreUpdate): Promise<any> {
     logger.info("------ DL:updateStore Start---------");
-
+    logger.info("userId : ", userId);
     const updateResult = await this.docClient
       .update({
         TableName: this.StoreTable,
 
-        Key: { StoreId: StoreId, userId: userId },
+        Key: { StoreId: StoreId },
         ExpressionAttributeValues: {
           ":name": updatedStore.name,
           ":phone": updatedStore.phone,
@@ -159,12 +159,12 @@ export class StoreAccess {
   }
 
   async deleteStore(userId, StoreId): Promise<any> {
+    console.log(userId);
     await this.docClient
       .delete({
         TableName: this.StoreTable,
         Key: {
           StoreId: StoreId,
-          userId: userId,
         },
       })
       .promise()

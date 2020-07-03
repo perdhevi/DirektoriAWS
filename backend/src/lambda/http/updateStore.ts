@@ -15,6 +15,7 @@ export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const _StoreId = event.pathParameters.StoreId;
+
   console.log(event);
   const updatedBody: UpdateStoreRequest = JSON.parse(event.body);
 

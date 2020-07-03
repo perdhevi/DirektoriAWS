@@ -34,7 +34,7 @@ class Dashboard extends React.Component {
               <div className="header">{storeName}</div>
               <div className="description">{store.address}</div>
             </div>
-            <div class="extra content">
+            <div className="extra content">
               <span className="right floated">
                 {store.phone ? store.phone : "none"}
               </span>
@@ -73,7 +73,7 @@ class Dashboard extends React.Component {
 
     return (
       <div className="ui segment">
-        <div class="ui link cards">{this.renderList()}</div>
+        <div className="ui link cards">{this.renderList()}</div>
         <div className="ui basic segment">{this.renderButton(nextKey)}</div>
       </div>
     );
