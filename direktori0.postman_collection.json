@@ -105,6 +105,46 @@
 					"response": []
 				},
 				{
+					"name": "store edit",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-length": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "PATCH",
+						"header": [
+							{
+								"key": "Host",
+								"type": "text",
+								"value": "localhost",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Jane's place 6\",\n        \"phone\": \"555-123\",\n        \"address\": \"Kenjeran\",\n        \"notes\": \"Stor6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/stores/{{storeId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "store delete",
 					"protocolProfileBehavior": {
 						"disabledSystemHeaders": {
@@ -139,6 +179,35 @@
 							"path": [
 								"stores",
 								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get attachment URL",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{authToken}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": ""
+						},
+						"url": {
+							"raw": "{{baseURL}}/stores/{{storeId}}/attachment",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}",
+								"attachment"
 							]
 						}
 					},
@@ -182,7 +251,7 @@
 	],
 	"variable": [
 		{
-			"id": "298e93eb-35cb-415e-9665-1f8937918863",
+			"id": "c99bdbb9-1f77-4ee2-84e4-af2fdd47bb95",
 			"key": "baseURL",
 			"value": "https://j9qmzclk8i.execute-api.us-east-1.amazonaws.com/dev/"
 		}
