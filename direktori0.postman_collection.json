@@ -1,0 +1,191 @@
+{
+	"info": {
+		"_postman_id": "f1068608-c6fe-4c34-bbac-0c225aa40a72",
+		"name": "direktori0",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "stores",
+			"item": [
+				{
+					"name": "store list",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/stores",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store list all",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [],
+							"options": {
+								"formdata": {}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/allstores",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"allstores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store add",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-type": true,
+							"content-length": true
+						}
+					},
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Host",
+								"value": "localhost",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Jane's place 5\",\n        \"phone\": \"555-123\",\n        \"address\": \"Kenjeran\",\n        \"notes\": \"Stor6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/stores",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"stores"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "store delete",
+					"protocolProfileBehavior": {
+						"disabledSystemHeaders": {
+							"content-length": true,
+							"content-type": true
+						}
+					},
+					"request": {
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Host",
+								"type": "text",
+								"value": "localhost",
+								"disabled": true
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"name\": \"Jane's place 5\",\n        \"phone\": \"555-123\",\n        \"address\": \"Kenjeran\",\n        \"notes\": \"Stor6\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseURL}}/stores/{{storeId}}",
+							"host": [
+								"{{baseURL}}"
+							],
+							"path": [
+								"stores",
+								"{{storeId}}"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"protocolProfileBehavior": {}
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6ImRqeThVMkRJVkRSQ0ZubUlSOFZVeSJ9.eyJpc3MiOiJodHRwczovL2Rldi13MDJheWhzdi5hdXRoMC5jb20vIiwic3ViIjoiZ29vZ2xlLW9hdXRoMnwxMTczNjY0OTczOTkxMDcxMTU2MTMiLCJhdWQiOlsiaHR0cDovL2xvY2FsaG9zdDozMDAyIiwiaHR0cHM6Ly9kZXYtdzAyYXloc3YuYXV0aDAuY29tL3VzZXJpbmZvIl0sImlhdCI6MTU5MzUwMTYwOSwiZXhwIjoxNTkzNTA4ODA5LCJhenAiOiIzbnl3dWNQb0MwNUZyN3Zrb3FEVUljcmdhdTFIS0psbSIsInNjb3BlIjoib3BlbmlkIHByb2ZpbGUgZW1haWwifQ.VuMx0HNKM15GcmITRxj7W3zNgpvKcNuGeNsS9aaHDFVw3p9XncCp5R4f1rOAEK08GrjrVV8SRzaEf4k4fnvb4sEU5Tbj2aoW5qHxUt5S8jmGkKqc9c2WKo42_Ub1p2GBYmuUhTZvReEKV7AdWI4hhfCA1yYGp-yPAIQ_iS8eBc-ZbrHrRfy3wWx3e9BDajxxnsqP0lev07dmtfNdCsK0knzIqGL1ZUWOattog_AejsC9-MTqzSpg3RKswfKyz05edbgB1HIKFogmhQgAkN897-z8zlQF-nLGyEaYUrPpRnbrUv70SJpofv3d01yQED6dsIy3GtccUEWoGHLCtNMhnA",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "f2c370c7-6d8f-4f4d-b402-dcec81680c0f",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "d08cd694-c040-427c-8f8f-3c8cc5a95450",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "298e93eb-35cb-415e-9665-1f8937918863",
+			"key": "baseURL",
+			"value": "https://j9qmzclk8i.execute-api.us-east-1.amazonaws.com/dev/"
+		}
+	],
+	"protocolProfileBehavior": {}
+}
