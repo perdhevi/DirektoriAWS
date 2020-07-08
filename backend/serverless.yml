@@ -15,6 +15,9 @@ provider:
   environment:
     STORE_TABLE: store-${self:provider.stage}
     INDEX_NAME: store-name-${self:provider.stage}
+    INDEX_CATEGORY: store-category-${self:provider.stage}
+    CATEGORY_TABLE: category-${self:provider.stage}
+    CAT_INDEX: category-name-${self:provider.stage}
     IMAGES_S3_BUCKET: direktori-store-images-${self:provider.stage}
     CONNECTIONS_TABLE: Connections-${self:provider.stage}
     CONNECTIONS_INDEX: ConnectionsIndex
@@ -40,7 +43,7 @@ functions:
     handler: src/lambda/auth/auth0Authorizer.handler
 
   GetAllStores:
-    handler: src/lambda/http/getAllStores.handler
+    handler: src/lambda/http/store/getAllStores.handler
     events:
       - http:
           method: get
@@ -58,7 +61,7 @@ functions:
           - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   GetStores:
-    handler: src/lambda/http/getStores.handler
+    handler: src/lambda/http/store/getStores.handler
     events:
       - http:
           method: get
@@ -74,9 +77,8 @@ functions:
         Action:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
-
   CreateStore:
-    handler: src/lambda/http/createStore.handler
+    handler: src/lambda/http/store/createStore.handler
     events:
       - http:
           method: post
@@ -98,7 +100,7 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   GetStore:
-    handler: src/lambda/http/getStore.handler
+    handler: src/lambda/http/store/getStore.handler
     events:
       - http:
           method: get
@@ -120,9 +122,8 @@ functions:
           - dynamodb:Query
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
-
   UpdateStore:
-    handler: src/lambda/http/updateStore.handler
+    handler: src/lambda/http/store/updateStore.handler
     events:
       - http:
           method: patch
@@ -146,9 +147,8 @@ functions:
           - dynamodb:Query
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
-
   DeleteStore:
-    handler: src/lambda/http/deleteStore.handler
+    handler: src/lambda/http/store/deleteStore.handler
     events:
       - http:
           method: delete
@@ -168,7 +168,7 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   GenerateUploadUrl:
-    handler: src/lambda/http/generateUploadUrl.handler
+    handler: src/lambda/http/store/generateUploadUrl.handler
     events:
       - http:
           method: post
@@ -258,6 +258,8 @@ resources:
             AttributeType: S
           - AttributeName: userId
             AttributeType: S
+          - AttributeName: categoryId
+            AttributeType: S
         KeySchema:
           - AttributeName: StoreId
             KeyType: HASH
@@ -270,6 +272,28 @@ resources:
                 KeyType: RANGE
             Projection:
               ProjectionType: ALL # What attributes will be copied to an index
+          - IndexName: ${self:provider.environment.INDEX_CATEGORY}
+            KeySchema:
+              - AttributeName: categoryId
+                KeyType: HASH
+              - AttributeName: StoreId
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL # What attributes will be copied to an index
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
+
+    CategoryDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.CATEGORY_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: categoryId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: categoryId
+            KeyType: HASH
         StreamSpecification:
           StreamViewType: NEW_IMAGE
 

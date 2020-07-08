@@ -6,10 +6,10 @@ import {
   APIGatewayProxyResult,
 } from "aws-lambda";
 
-import { UpdateStoreRequest } from "../../requests/UpdateStoreRequest";
-import * as Stores from "../../businessLayer/Store";
+import { UpdateStoreRequest } from "../../../requests/UpdateStoreRequest";
+import * as Stores from "../../../businessLayer/Store";
 
-import { getUserId } from "../utils";
+import { getUserId } from "../../utils";
 
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent

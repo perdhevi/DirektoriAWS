@@ -7,8 +7,8 @@ import {
 } from "aws-lambda";
 
 //import * as AWS from 'aws-sdk';
-import { getUserId } from "../utils";
-import * as Stores from "../../businessLayer/Store";
+import { getUserId } from "../../utils";
+import * as Stores from "../../../businessLayer/Store";
 
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent

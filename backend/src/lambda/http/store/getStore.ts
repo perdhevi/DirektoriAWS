@@ -6,14 +6,20 @@ import {
   APIGatewayProxyHandler,
 } from "aws-lambda";
 
-import * as Stores from "../../businessLayer/Store";
+import * as Stores from "../../../businessLayer/Store";
+import { getUserId } from "../../utils";
 
 export const handler: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   console.log("Processing Event: ", event);
-  const lastKey = event.pathParameters.lastKey;
-  const items = await Stores.getAllStore(lastKey);
+  const _StoreId = event.pathParameters.StoreId;
+
+  // Store: Authorization for this user
+  const userId = getUserId(event);
+  console.log(userId);
+  // DONE: Get all Store items for a current user
+  const items = await Stores.getStore(userId, _StoreId);
 
   console.log("Fetch complete with ", items);
   return {
