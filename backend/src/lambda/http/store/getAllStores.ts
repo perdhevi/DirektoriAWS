@@ -8,7 +8,7 @@ import {
 
 import * as Stores from "../../../businessLayer/Store";
 
-export const handler: APIGatewayProxyHandler = async (
+export const storeGetAll: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   console.log("Processing Event: ", event);

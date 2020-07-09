@@ -9,7 +9,7 @@ import {
 import * as Stores from "../../../businessLayer/Store";
 import { getUserId } from "../../utils";
 
-export const handler: APIGatewayProxyHandler = async (
+export const getStore: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   console.log("Processing Event: ", event);

@@ -12,3 +12,10 @@ export interface StorePagedItem {
   Items: StoreItem[];
   LastEvaluatedKey: any;
 }
+
+export interface StoreItemUpdate {
+  name: string;
+  phone: string;
+  address: string;
+  notes?: string;
+}

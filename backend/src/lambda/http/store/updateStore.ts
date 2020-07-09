@@ -11,7 +11,7 @@ import * as Stores from "../../../businessLayer/Store";
 
 import { getUserId } from "../../utils";
 
-export const handler: APIGatewayProxyHandler = async (
+export const storeUpdate: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const _StoreId = event.pathParameters.StoreId;

@@ -7,7 +7,7 @@ import {
   APIGatewayProxyHandler,
 } from "aws-lambda";
 
-export const handler: APIGatewayProxyHandler = async (
+export const storeUploadURL: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   const StoreId = event.pathParameters.StoreId;

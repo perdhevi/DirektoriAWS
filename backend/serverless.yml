@@ -42,8 +42,11 @@ functions:
   MyAuth:
     handler: src/lambda/auth/auth0Authorizer.handler
 
+  ###############################################################################
+  ##  Stores
+
   GetAllStores:
-    handler: src/lambda/http/store/getAllStores.handler
+    handler: src/lambda/http/store/getAllStores.storeGetAll
     events:
       - http:
           method: get
@@ -61,7 +64,7 @@ functions:
           - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   GetStores:
-    handler: src/lambda/http/store/getStores.handler
+    handler: src/lambda/http/store/getStores.storeGetStores
     events:
       - http:
           method: get
@@ -78,7 +81,7 @@ functions:
           - dynamodb:Query
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   CreateStore:
-    handler: src/lambda/http/store/createStore.handler
+    handler: src/lambda/http/store/createStore.storeCreate
     events:
       - http:
           method: post
@@ -100,7 +103,7 @@ functions:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   GetStore:
-    handler: src/lambda/http/store/getStore.handler
+    handler: src/lambda/http/store/getStore.getStore
     events:
       - http:
           method: get
@@ -123,7 +126,7 @@ functions:
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   UpdateStore:
-    handler: src/lambda/http/store/updateStore.handler
+    handler: src/lambda/http/store/updateStore.storeUpdate
     events:
       - http:
           method: patch
@@ -148,7 +151,7 @@ functions:
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   DeleteStore:
-    handler: src/lambda/http/store/deleteStore.handler
+    handler: src/lambda/http/store/deleteStore.storeDelete
     events:
       - http:
           method: delete
@@ -168,7 +171,7 @@ functions:
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
 
   GenerateUploadUrl:
-    handler: src/lambda/http/store/generateUploadUrl.handler
+    handler: src/lambda/http/store/generateUploadUrl.storeUploadURL
     events:
       - http:
           method: post
@@ -213,7 +216,29 @@ functions:
           - dynamodb:Scan
           - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CONNECTIONS_TABLE}
+  ######################################################
+  ## ####Category
 
+  GetCategories:
+    handler: src/lambda/http/category/getCategory.getCategories
+    events:
+      - http:
+          method: get
+          path: categories
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CATEGORY_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.CATEGORY_TABLE}/*
+  #######################################################
+  ## web socket
   ConnectHandler:
     handler: src/lambda/websocket/connect.handler
     events:

@@ -1,5 +1,4 @@
 import { StoreItem, StorePagedItem } from "../models/StoreItem";
-//import { StoreUpdate } from '../models/StoreUpdate'
 import { StoreAccess } from "../dataLayer/StoreAccess";
 import { CreateStoreRequest } from "../requests/CreateStoreRequest";
 import { UpdateStoreRequest } from "../requests/UpdateStoreRequest";

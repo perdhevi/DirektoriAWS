@@ -1,5 +1,8 @@
-import { StoreItem, StorePagedItem } from "../models/StoreItem";
-import { StoreUpdate } from "../models/StoreUpdate";
+import {
+  StoreItem,
+  StorePagedItem,
+  StoreItemUpdate,
+} from "../models/StoreItem";
 import * as AWS from "aws-sdk";
 import { createLogger } from "../utils/logger";
 const logger = createLogger("StoreAccess");
@@ -85,7 +88,11 @@ export class StoreAccess {
     return items as StoreItem;
   }
 
-  async updateStore(StoreId, userId, updatedStore: StoreUpdate): Promise<any> {
+  async updateStore(
+    StoreId,
+    userId,
+    updatedStore: StoreItemUpdate
+  ): Promise<any> {
     logger.info("------ DL:updateStore Start---------");
     logger.info("userId : ", userId);
     const updateResult = await this.docClient
@@ -110,7 +117,7 @@ export class StoreAccess {
       .promise()
       .then((res) => {
         logger.info(res);
-        return res.Attributes as StoreUpdate;
+        return res.Attributes as StoreItemUpdate;
       })
       .catch((err) => logger.info(err));
 

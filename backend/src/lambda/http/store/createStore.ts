@@ -10,7 +10,7 @@ import { getUserId } from "../../utils";
 import * as Stores from "../../../businessLayer/Store";
 import { CreateStoreRequest } from "../../../requests/CreateStoreRequest";
 
-export const handler: APIGatewayProxyHandler = async (
+export const storeCreate: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
 ): Promise<APIGatewayProxyResult> => {
   console.log("getting user id");
