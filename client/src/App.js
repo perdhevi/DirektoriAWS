@@ -22,6 +22,20 @@ class App extends Component {
   }
 
   render(props) {
+    /*
+    removed category routing
+        <Route
+          path="/categories"
+          exact
+          render={(props) => <CategoryList auth={this.auth} {...props} />}
+        />
+        <Route
+          path="/categories/new"
+          exact
+          render={(props) => <CategoryNew auth={this.auth} {...props} />}
+        />
+
+    */
     return (
       <div className="container">
         <TopHeader auth={this.auth} {...props} />
@@ -54,16 +68,6 @@ class App extends Component {
           path="/stores/:StoreId/delete"
           exact
           render={(props) => <StoreDelete auth={this.auth} {...props} />}
-        />
-        <Route
-          path="/categories"
-          exact
-          render={(props) => <CategoryList auth={this.auth} {...props} />}
-        />
-        <Route
-          path="/categories/new"
-          exact
-          render={(props) => <CategoryNew auth={this.auth} {...props} />}
         />
       </div>
     );
