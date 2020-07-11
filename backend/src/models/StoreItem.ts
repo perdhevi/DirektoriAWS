@@ -6,6 +6,7 @@ export interface StoreItem {
   phone: string;
   address: string;
   notes?: string;
+  categoryId?: string;
 }
 
 export interface StorePagedItem {
@@ -18,4 +19,5 @@ export interface StoreItemUpdate {
   phone: string;
   address: string;
   notes?: string;
+  categoryId?: string;
 }

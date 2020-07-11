@@ -5,5 +5,6 @@ export interface StoreItem {
   name: string;
   phone: string;
   address: string;
+  categoryId: string;
   notes?: string;
 }

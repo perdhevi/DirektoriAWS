@@ -8,8 +8,8 @@ import StoreCreate from "./components/store/StoreCreate";
 import StoreEdit from "./components/store/StoreEdit";
 import StoreDelete from "./components/store/StoreDelete";
 
-import CategoryList from "./components/category/categoryList";
-import CategoryNew from "./components/category/categoryNew";
+//import CategoryList from "./components/category/categoryList";
+//import CategoryNew from "./components/category/categoryNew";
 
 import Auth from "./auth/auth";
 import Callback from "./components/callback";

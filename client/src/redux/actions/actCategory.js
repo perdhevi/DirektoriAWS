@@ -1,16 +1,13 @@
 import constants from "../../constants";
+import { getCategories } from "../../api/category.ts";
 
-export const fetchCategory = (props) => async (dispatch) => {
+export const fetchCategory = (props) => (dispatch) => {
   console.log("actioning fetchCategory");
-  //const response = await getCategoruList(props.auth);
-  const response = {
-    data: [
-      { id: 0, name: "test" },
-      { id: 1, name: "test 2" },
-    ],
-  };
-  dispatch({
-    type: constants.FETCH_CATEGORY_LIST,
-    payload: response.data,
+  getCategories().then((response) => {
+    console.log(response);
+    dispatch({
+      type: constants.FETCH_CATEGORY_LIST,
+      payload: response.data,
+    });
   });
 };

@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import StoreForm from "./StoreForm";
 import { createStore } from "../../api/stores";
+import { connect } from "react-redux";
+import { fetchCategory } from "../../redux/actions/actCategory";
+import PropTypes from "prop-types";
 
-const StoreCreate = (props) => {
-  const [store, setStore] = useState({
-    name: "",
-    address: "",
-    phone: "",
-    notes: "",
-  });
+const StoreCreate = ({ fetchCategory, categories, ...props }) => {
+  const [store, setStore] = useState({ ...props.store });
+
+  useEffect(() => {
+    console.log("storeCreate:useEffect");
+    fetchCategory();
+    console.log("storeCreate:useEffect.done");
+  }, []);
 
   function handleChange(event) {
     const updatedStore = { ...store, [event.target.name]: event.target.value };
@@ -25,6 +29,7 @@ const StoreCreate = (props) => {
     });
     console.log("submitted");
   }
+  console.log("categories", categories);
   return (
     <div className="ui segment">
       <div className="ui form">
@@ -32,6 +37,7 @@ const StoreCreate = (props) => {
 
         <StoreForm
           store={store}
+          categories={categories}
           onChange={handleChange}
           onSubmit={handleSubmit}
         />
@@ -40,4 +46,24 @@ const StoreCreate = (props) => {
   );
 };
 
-export default StoreCreate;
+function mapStateToProps(state, ownProps) {
+  if (state.categories && state.categories.items) {
+    const cats = state.categories.items.map((category) => {
+      return {
+        value: category.categoryId,
+        text: category.description,
+        iconPath: category.iconPath,
+      };
+    });
+    return { categories: cats };
+  } else {
+    return { categories: state.categories };
+  }
+}
+
+StoreCreate.propTypes = {
+  fetchCategory: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+};
+
+export default connect(mapStateToProps, { fetchCategory })(StoreCreate);

@@ -63,6 +63,26 @@ functions:
           - dynamodb:Query
           - dynamodb:Scan
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
+
+  GetStoresByCategory:
+    handler: src/lambda/http/store/getStoresByCategory.storeGetByCategory
+    events:
+      - http:
+          method: get
+          path: allstores/category/{categoryId}/{lastKey}
+          cors: true
+    iamRoleStatements:
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
+      - Effect: Allow
+        Action:
+          - dynamodb:Query
+          - dynamodb:Scan
+        Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
+
   GetStores:
     handler: src/lambda/http/store/getStores.storeGetStores
     events:
@@ -108,7 +128,6 @@ functions:
       - http:
           method: get
           path: stores/{StoreId}
-          authorizer: MyAuth
           cors: true
           reqValidatorName: RequestBodyValidator
           documentation:
@@ -118,12 +137,10 @@ functions:
       - Effect: Allow
         Action:
           - dynamodb:Query
-          - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}
       - Effect: Allow
         Action:
           - dynamodb:Query
-          - dynamodb:UpdateItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
   UpdateStore:
     handler: src/lambda/http/store/updateStore.storeUpdate

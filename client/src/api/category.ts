@@ -1,11 +1,9 @@
 import ax from "./index";
 
-export function getStoreList(auth) {
+export function getCategories() {
   return ax.get("/categories", {
     headers: {
       "Content-Type": "application/json",
-      Authorization: `Bearer ${auth.getAccessToken()}`,
     },
-    body: {},
   });
 }

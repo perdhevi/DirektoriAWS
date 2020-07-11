@@ -11,7 +11,8 @@ export class StoreAccess {
   constructor(
     private readonly docClient: AWS.DynamoDB.DocumentClient = new AWS.DynamoDB.DocumentClient(),
     private readonly StoreTable = process.env.STORE_TABLE,
-    private readonly StoreIndex = process.env.INDEX_NAME
+    private readonly StoreIndex = process.env.INDEX_NAME,
+    private readonly StoreCategoryIndex = process.env.INDEX_CATEGORY
   ) {}
 
   async getAllStores(lastKey): Promise<StorePagedItem> {
@@ -28,6 +29,39 @@ export class StoreAccess {
       result = await this.docClient
         .scan({
           TableName: this.StoreTable,
+          Limit: 4,
+          ExclusiveStartKey: { StoreId: lastKey },
+        })
+        .promise();
+
+    const items = result;
+    return items as StorePagedItem;
+  }
+
+  async getStoresByCategory(categoryId, lastKey): Promise<StorePagedItem> {
+    let result = null;
+    console.log(lastKey);
+    if (!lastKey || lastKey == null || lastKey === "null")
+      result = await this.docClient
+        .query({
+          TableName: this.StoreTable,
+          IndexName: this.StoreCategoryIndex,
+          KeyConditionExpression: "categoryId = :categoryId",
+          ExpressionAttributeValues: {
+            ":categoryId": categoryId,
+          },
+          Limit: 4,
+        })
+        .promise();
+    else
+      result = await this.docClient
+        .query({
+          TableName: this.StoreTable,
+          IndexName: this.StoreCategoryIndex,
+          KeyConditionExpression: "categoryId = :categoryId",
+          ExpressionAttributeValues: {
+            ":categoryId": categoryId,
+          },
           Limit: 4,
           ExclusiveStartKey: { StoreId: lastKey },
         })
@@ -105,12 +139,13 @@ export class StoreAccess {
           ":phone": updatedStore.phone,
           ":address": updatedStore.address,
           ":notes": updatedStore.notes,
+          ":categoryId": updatedStore.categoryId,
         },
         ExpressionAttributeNames: {
           "#nm": "name",
         },
         UpdateExpression:
-          "SET #nm = :name, phone = :phone, address = :address, notes = :notes",
+          "SET #nm = :name, phone = :phone, address = :address, notes = :notes, categoryId = :categoryId",
 
         ReturnValues: "UPDATED_NEW",
       })

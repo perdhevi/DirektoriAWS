@@ -17,6 +17,13 @@ export async function getAllStore(lastKey: any): Promise<StorePagedItem> {
   return storeAccess.getAllStores(lastKey);
 }
 
+export async function getStoreByCategory(
+  categoryId: string,
+  lastKey: any
+): Promise<StorePagedItem> {
+  return storeAccess.getStoresByCategory(categoryId, lastKey);
+}
+
 export async function createStore(newStore: CreateStoreRequest, userId) {
   const uuid = require("uuid");
   const _StoreId = uuid.v4();

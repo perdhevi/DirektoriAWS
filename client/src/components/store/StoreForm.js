@@ -1,7 +1,9 @@
 import React from "react";
 import TextInput from "../common/TextInput";
+import SelectInput from "../common/SelectInput";
 
 function StoreForm(props) {
+  console.log("storeForm", props);
   return (
     <form onSubmit={props.onSubmit}>
       <div className="ui segment">
@@ -28,6 +30,13 @@ function StoreForm(props) {
           label="Notes"
           value={props.store.notes}
           onChange={props.onChange}
+        />
+        <SelectInput
+          id="categoryId"
+          label="Category"
+          value={props.store.categoryId}
+          onChange={props.onChange}
+          options={props.categories}
         />
       </div>
       <input type="Submit" className="ui button"></input>

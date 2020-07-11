@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import StoreForm from "./StoreForm";
 import { fetchStore, findStoreById } from "../../redux/actions/actStore";
+import { fetchCategory } from "../../redux/actions/actCategory";
 import { connect } from "react-redux";
 import { updateStore } from "../../api/stores";
 import StoreImage from "./StoreImage";
 
-function StoreEdit(props) {
+const StoreEdit = ({ fetchCategory, categories, ...props }) => {
   const [store, setStore] = useState({ ...props.store });
-
-  useEffect(() => {}, [store]);
+  useEffect(() => {
+    console.log("StoreEdit:useEffect");
+    fetchCategory();
+    console.log("StoreEdit:useEffect.done");
+  }, []);
 
   function handleChange(event) {
     const updatedStore = {
@@ -39,6 +44,7 @@ function StoreEdit(props) {
 
           <StoreForm
             store={store}
+            categories={categories}
             onChange={handleChange}
             onSubmit={handleSubmit}
           />
@@ -47,14 +53,36 @@ function StoreEdit(props) {
       </div>
     );
   }
-}
+};
 
 function mapStateToProps(state, ownProps) {
   console.log("StoreEdit:mapping store to props", state);
 
   const storeId = ownProps.match.params.StoreId;
-
-  return { store: findStoreById(state.stores.items, storeId) };
+  if (state.categories && state.categories.items) {
+    const cats = state.categories.items.map((category) => {
+      return {
+        value: category.categoryId,
+        text: category.description,
+        iconPath: category.iconPath,
+      };
+    });
+    return {
+      categories: cats,
+      store: findStoreById(state.stores.items, storeId),
+    };
+  } else {
+    return {
+      categories: state.categories,
+      store: findStoreById(state.stores.items, storeId),
+    };
+  }
 }
 
-export default connect(mapStateToProps, { fetchStore })(StoreEdit);
+StoreEdit.propTypes = {
+  fetchCategory: PropTypes.func.isRequired,
+  categories: PropTypes.array.isRequired,
+};
+export default connect(mapStateToProps, { fetchStore, fetchCategory })(
+  StoreEdit
+);
