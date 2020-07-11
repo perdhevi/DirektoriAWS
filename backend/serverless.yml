@@ -122,6 +122,7 @@ functions:
         Action:
           - dynamodb:PutItem
         Resource: arn:aws:dynamodb:${self:provider.region}:*:table/${self:provider.environment.STORE_TABLE}/*
+
   GetStore:
     handler: src/lambda/http/store/getStore.getStore
     events:
@@ -129,7 +130,6 @@ functions:
           method: get
           path: stores/{StoreId}
           cors: true
-          reqValidatorName: RequestBodyValidator
           documentation:
             summary: get a Store
             description: Get a Store

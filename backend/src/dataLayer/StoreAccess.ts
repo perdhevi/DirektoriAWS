@@ -99,17 +99,14 @@ export class StoreAccess {
     return item;
   }
 
-  async getStore(userId, StoreId): Promise<StoreItem> {
+  async getStore(StoreId): Promise<StoreItem> {
     logger.info("------ DL:getStore Start---------");
     const queryRest = await this.docClient
       .query({
         TableName: this.StoreTable,
-        IndexName: this.StoreIndex,
-        KeyConditionExpression: "StoreId = :storeKey AND userId = :userKey",
-
+        KeyConditionExpression: "StoreId = :storeKey",
         ExpressionAttributeValues: {
           ":storeKey": StoreId,
-          ":userKey": userId,
         },
       })
       .promise();

@@ -9,8 +9,8 @@ export async function getStores(userId): Promise<StoreItem[]> {
   return storeAccess.getStores(userId);
 }
 
-export async function getStore(userId, StoreId): Promise<StoreItem> {
-  return storeAccess.getStore(userId, StoreId);
+export async function getStore(StoreId): Promise<StoreItem> {
+  return storeAccess.getStore(StoreId);
 }
 
 export async function getAllStore(lastKey: any): Promise<StorePagedItem> {
@@ -51,7 +51,7 @@ export async function updateStore(
   };
   console.log(updatedStore);
 
-  const queryRest = await storeAccess.getStore(userId, _StoreId);
+  const queryRest = await storeAccess.getStore(_StoreId);
   console.log(queryRest);
 
   const updateResult = await storeAccess.updateStore(

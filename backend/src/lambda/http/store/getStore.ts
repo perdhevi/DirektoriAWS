@@ -7,7 +7,7 @@ import {
 } from "aws-lambda";
 
 import * as Stores from "../../../businessLayer/Store";
-import { getUserId } from "../../utils";
+//import { getUserId } from "../../utils";
 
 export const getStore: APIGatewayProxyHandler = async (
   event: APIGatewayProxyEvent
@@ -16,10 +16,11 @@ export const getStore: APIGatewayProxyHandler = async (
   const _StoreId = event.pathParameters.StoreId;
 
   // Store: Authorization for this user
-  const userId = getUserId(event);
-  console.log(userId);
+  //const userId = getUserId(event);
+  //console.log(userId);
   // DONE: Get all Store items for a current user
-  const items = await Stores.getStore(userId, _StoreId);
+  console.log("http call to BL", _StoreId);
+  const items = await Stores.getStore(_StoreId);
 
   console.log("Fetch complete with ", items);
   return {
