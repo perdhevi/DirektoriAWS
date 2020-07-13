@@ -41,8 +41,7 @@ async function updateTable(key, url) {
 async function processS3Event(s3Event: S3Event) {
   for (const record of s3Event.Records) {
     const key = record.s3.object.key;
-    console.log("processing key ", record.s3.object);
-
+    console.log("processing key ", key);
     await updateTable(
       key,
       `https://${record.s3.bucket.name}.s3.amazonaws.com/${key}`

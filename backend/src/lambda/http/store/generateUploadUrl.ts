@@ -18,13 +18,17 @@ export const storeUploadURL: APIGatewayProxyHandler = async (
   const s3 = new AWS.S3({
     signatureVersion: "v4", // Use Sigv4 algorithm
   });
+  //const uuid = require("uuid");
+  //const fileId = uuid.v4();
+  const keyId = StoreId;
+  console.log(keyId);
   const presignedUrl = s3.getSignedUrl("putObject", {
     // The URL will allow to perform the PUT operation
     Bucket: s3bucket, // Name of an S3 bucket
-    Key: StoreId, // id of an object this URL allows access to
+    Key: keyId, // id of an object this URL allows access to
     Expires: 3000, // A URL is only valid for 5 minutes
   });
-
+  console.log(presignedUrl);
   return {
     statusCode: 200,
     headers: {

@@ -74,6 +74,8 @@ export async function deleteStore(StoreId, userId): Promise<any> {
 
 export async function updateURL(StoreId, url): Promise<any> {
   console.log("------BL start--------");
+  console.log("key :", StoreId);
+
   const result = await storeAccess.updateStoreAttachment(StoreId, url);
   console.log("------BL end--------");
   return result;

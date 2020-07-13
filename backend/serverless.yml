@@ -18,6 +18,8 @@ provider:
     INDEX_CATEGORY: store-category-${self:provider.stage}
     CATEGORY_TABLE: category-${self:provider.stage}
     CAT_INDEX: category-name-${self:provider.stage}
+    IMAGE_TABLE: images-${self:provider.stage}
+    IMAGE_INDEX: images-store-${self:provider.stage}
     IMAGES_S3_BUCKET: direktori-store-images-${self:provider.stage}
     CONNECTIONS_TABLE: Connections-${self:provider.stage}
     CONNECTIONS_INDEX: ConnectionsIndex
@@ -336,6 +338,31 @@ resources:
         KeySchema:
           - AttributeName: categoryId
             KeyType: HASH
+        StreamSpecification:
+          StreamViewType: NEW_IMAGE
+
+    ImageDynamoDBTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:provider.environment.IMAGE_TABLE}
+        BillingMode: PAY_PER_REQUEST
+        AttributeDefinitions:
+          - AttributeName: imageId
+            AttributeType: S
+          - AttributeName: StoreId
+            AttributeType: S
+        KeySchema:
+          - AttributeName: imageId
+            KeyType: HASH
+        GlobalSecondaryIndexes:
+          - IndexName: ${self:provider.environment.IMAGE_INDEX}
+            KeySchema:
+              - AttributeName: StoreId
+                KeyType: HASH
+              - AttributeName: imageId
+                KeyType: RANGE
+            Projection:
+              ProjectionType: ALL # What attributes will be copied to an index
         StreamSpecification:
           StreamViewType: NEW_IMAGE
 
