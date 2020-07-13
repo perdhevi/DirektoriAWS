@@ -2,6 +2,7 @@ export interface StoreItem {
   userId: string;
   StoreId: string;
   createdAt: string;
+  price: number;
   name: string;
   phone: string;
   address: string;
@@ -18,6 +19,8 @@ export interface StoreItemUpdate {
   name: string;
   phone: string;
   address: string;
+  price: number;
+  updatedAt: string;
   notes?: string;
   categoryId?: string;
 }

@@ -5,4 +5,5 @@ export interface UpdateStoreRequest {
   name: string;
   phone: string;
   address: string;
+  price: number;
 }

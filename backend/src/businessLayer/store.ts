@@ -44,9 +44,10 @@ export async function updateStore(
   userId
 ): Promise<any> {
   console.log("------BL start--------");
+  const _now = new Date();
   const updatedStore = {
     StoreId: _StoreId,
-
+    updatedAt: _now.toISOString(),
     ...updatedBody,
   };
   console.log(updatedStore);

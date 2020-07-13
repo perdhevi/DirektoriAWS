@@ -5,4 +5,5 @@ export interface CreateStoreRequest {
   name: string;
   phone: string;
   address: string;
+  price: number;
 }
