@@ -86,19 +86,6 @@ export class StoreAccess {
     return items as StoreItem[];
   }
 
-  async createStore(item: StoreItem): Promise<StoreItem> {
-    await this.docClient
-      .put({
-        TableName: this.StoreTable,
-        Item: item,
-      })
-      .promise()
-      .then((res) => res)
-      .catch((err) => logger.info(err));
-
-    return item;
-  }
-
   async getStore(StoreId): Promise<StoreItem> {
     logger.info("------ DL:getStore Start---------");
     const queryRest = await this.docClient
@@ -117,6 +104,19 @@ export class StoreAccess {
     logger.info(items);
     logger.info("------ DL:getStore end---------");
     return items as StoreItem;
+  }
+
+  async createStore(item: StoreItem): Promise<StoreItem> {
+    await this.docClient
+      .put({
+        TableName: this.StoreTable,
+        Item: item,
+      })
+      .promise()
+      .then((res) => res)
+      .catch((err) => logger.info(err));
+
+    return item;
   }
 
   async updateStore(
@@ -198,7 +198,7 @@ export class StoreAccess {
   }
 
   async deleteStore(userId, StoreId): Promise<any> {
-    console.log(userId);
+    logger.info(userId);
     await this.docClient
       .delete({
         TableName: this.StoreTable,

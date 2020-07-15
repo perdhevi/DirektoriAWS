@@ -1,6 +1,8 @@
 import "source-map-support/register";
 import * as AWS from "aws-sdk";
 
+import * as Stores from "../../../businessLayer/Store";
+
 import {
   APIGatewayProxyEvent,
   APIGatewayProxyResult,
@@ -18,14 +20,16 @@ export const storeUploadURL: APIGatewayProxyHandler = async (
   const s3 = new AWS.S3({
     signatureVersion: "v4", // Use Sigv4 algorithm
   });
-  //const uuid = require("uuid");
-  //const fileId = uuid.v4();
+  const uuid = require("uuid");
+  const fileId = uuid.v4();
   const keyId = StoreId;
   console.log(keyId);
+  const result = await Stores.addImage(StoreId, fileId);
+  console.log(result);
   const presignedUrl = s3.getSignedUrl("putObject", {
     // The URL will allow to perform the PUT operation
     Bucket: s3bucket, // Name of an S3 bucket
-    Key: keyId, // id of an object this URL allows access to
+    Key: result.imageId, // id of an object this URL allows access to
     Expires: 3000, // A URL is only valid for 5 minutes
   });
   console.log(presignedUrl);

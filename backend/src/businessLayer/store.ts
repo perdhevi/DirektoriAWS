@@ -1,12 +1,19 @@
 import { StoreItem, StorePagedItem } from "../models/StoreItem";
 import { StoreAccess } from "../dataLayer/StoreAccess";
+import { ImageAccess } from "../dataLayer/ImageAccess";
 import { CreateStoreRequest } from "../requests/CreateStoreRequest";
 import { UpdateStoreRequest } from "../requests/UpdateStoreRequest";
+import { ImageItem } from "../models/ImageItem";
 
 const storeAccess = new StoreAccess();
+const imageAccess = new ImageAccess();
 
 export async function getStores(userId): Promise<StoreItem[]> {
   return storeAccess.getStores(userId);
+}
+
+export async function getStoreImages(StoreId): Promise<ImageItem[]> {
+  return imageAccess.getImages(StoreId);
 }
 
 export async function getStore(StoreId): Promise<StoreItem> {
@@ -72,11 +79,25 @@ export async function deleteStore(StoreId, userId): Promise<any> {
   return result;
 }
 
+export async function addImage(StoreId, fileId): Promise<any> {
+  console.log("------BL start--------");
+  const result = await imageAccess.addImage(StoreId, fileId);
+  console.log("------BL end--------");
+
+  return result;
+}
+
 export async function updateURL(StoreId, url): Promise<any> {
   console.log("------BL start--------");
   console.log("key :", StoreId);
 
-  const result = await storeAccess.updateStoreAttachment(StoreId, url);
+  const imgResult = await imageAccess.updateImageUrl(StoreId, url);
+  console.log("imageRes :", imgResult);
+  const result = await storeAccess.updateStoreAttachment(
+    imgResult.StoreId,
+    url
+  );
+
   console.log("------BL end--------");
   return result;
 }
